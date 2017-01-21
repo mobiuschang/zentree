@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "ZenTree",
+  "description": "Earn time to be unproductive by being productive",
+  "version": "1.0",
+  "options_page": "options/options.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["popup/popup.js","content.js"]
+    }
+  ],
+  "background": {
+    "scripts": ["backgrounds/background.js"]
+  },
+  "browser_action": {
+    "default_icon": "icons/snow_tree.png",
+    "default_title": "ZenTree",
+    "default_popup": "popup/popup.html"
+  },
+  "permissions": [
+    "<all_urls>", "storage", "tabs"
+  ]
+}
