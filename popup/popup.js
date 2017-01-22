@@ -6,7 +6,7 @@ $(document).ready(function()
             chrome.runtime.openOptionsPage();
         } else {
             // Reasonable fallback.
-            window.open(chrome.runtime.getURL('options.html'));
+            window.open(chrome.runtime.getURL('options/options.html'));
         }
 
     });
@@ -55,7 +55,7 @@ $(document).ready(function()
        chrome.tabs.query({'active': true, 'windowId': chrome.windows.WINDOW_ID_CURRENT}, function(tabs){
 
             if (testUrl.test(tabs[0].url)) {
-              chrome.tabs.update({url: "../options.html"});
+              chrome.tabs.update({url: "../options/options.html"});
               window.close();
               // Note: window.close(), not this.close()
             } else {
