@@ -58,9 +58,7 @@ $(document).ready(function()
               chrome.tabs.update({url: "../options/options.html"});
               window.close();
               // Note: window.close(), not this.close()
-            } else {
-              alert('hahha')
-            };
+            }
          });
     }
 
