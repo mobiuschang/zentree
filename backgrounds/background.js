@@ -18,16 +18,17 @@
 //   }
 // );
 //
-//
+//"www.youtube.com/*",
 
 
-chrome.storage.local.set({"block_url": ["https://www.youtube.com/*", "https://www.reddit.com/*"]});
+// chrome.storage.local.set({"block_urls": [ "www.reddit.com/*"]});
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 
-    chrome.storage.local.get("block_url", function(result){
+    chrome.storage.sync.get("block_urls", function(result){
 
-      let resultArr = result.block_url;
+      let resultArr = result.block_urls;
+      // resultArr.splice(0, 1);
       resultArr.forEach(function(oneUrl){
 
         let testUrl = new RegExp(oneUrl);

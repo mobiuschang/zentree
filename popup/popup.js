@@ -67,9 +67,5 @@ $(document).ready(function()
       clickHandler();
     })
 
-    // $("#locally").click(function() {
-    //   alert(localStorage.current_url);
-    //   return false;
-    // })
 });
 
