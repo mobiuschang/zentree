@@ -16,12 +16,15 @@
     "scripts": ["backgrounds/background.js"],
     "persistent": false
   },
+  "icons": {
+    "128": "icons/snow_tree.png"
+  },
   "browser_action": {
-    "default_icon": "icons/snow_tree.png",
     "default_title": "ZenTree",
     "default_popup": "popup/popup.html"
   },
   "permissions": [
-    "<all_urls>", "storage", "tabs"
-  ]
+    "<all_urls>", "storage", "tabs", "activeTab"
+  ],
+  "web_accessible_resources": ["backgrounds/background.html"]
 }

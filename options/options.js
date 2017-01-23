@@ -4,16 +4,71 @@ $(function(){
         return url + "/*";
     };
 
-    var blockUrl = $("#inputUrl").val();
+    var count = 0;
 
-    $(".btn-add").click(function(){
+    chrome.storage.sync.get("block_urls", function(result){
+       var currentArray = result.block_urls;
+       console.log(`${currentArray} Url saved`);
+       if(currentArray.length > 0){
+          var firstInput = currentArray[0].replace("/*", "");
+          $("#inputUrl_0").val(firstInput);
+          for(var count=1; count<currentArray.length; count++){
+            var newValue = currentArray[count].replace("/*", "");
+            var inputField = "<div class='entry_"+count+" input-group col-xs-3'> " +
+                               "<input id = 'inputUrl_"+count+"' value='"+newValue+"' class='input-field form-control' name='fields[]' type='text' placeholder='Type something' /> " +
+                                  "<span class='input-group-btn'>" +
+                                    "<button class='btn btn-success btn-delete' data-count="+count+" type='button'>" +
+                                      "<span class='glyphicon glyphicon-minus'></span>" +
+                                    "</button></span></div>"
+            $("#option-form").append(inputField);
+          }
+       }
+    });
 
-        var urlValue = convertUrlRegex($("#inputUrl").val());
-        var urlArray = [urlValue];
-        chrome.storage.sync.set({"block_urls": urlArray}, function(){
+    $(document).keypress(function(e){
+      if(e.which === 13) {
 
-            console.log(`${urlValue} Url saved`);
+        var urlArray = [];
+        var hasEnter = true;
+        $(".input-field").each(function(){
+          var value = $(this).val();
+          if( !value || value == "") {
+            alert("please enter previous input field");
+            hasEnter = false;
+          }
+          var newValue = convertUrlRegex(value);
+          urlArray.push(newValue);
         });
+
+        if(hasEnter){
+          chrome.storage.sync.set({"block_urls": urlArray}, function(){
+            console.log(`${urlArray} Url saved`);
+          });
+
+         count++;
+         var inputField = "<div class='entry_"+count+" input-group col-xs-3'> " +
+                                 "<input id = 'inputUrl_"+count+"' class='input-field form-control' name='fields[]'' type='text' placeholder='Type something' /> " +
+                                    "<span class='input-group-btn'>" +
+                                      "<button class='btn btn-success btn-delete' data-count="+count+" type='button'>" +
+                                        "<span class='glyphicon glyphicon-minus'></span>" +
+                                      "</button></span></div>"
+          $("#option-form").append(inputField);
+        }
+      }
+    });
+
+    $(document).on("click", ".btn-delete", function(){
+      var currentCount = $(this).attr("data-count");
+      var urlArray = [];
+      $('.entry_'+currentCount).remove();
+      $(".input-field").each(function(){
+        var value = $(this).val();
+        var newValue = convertUrlRegex(value);
+        urlArray.push(newValue);
+      });
+      chrome.storage.sync.set({"block_urls": urlArray}, function(){
+        console.log(`${urlArray} Url saved`);
+      });
     });
 
         // chrome.storage.local.get("block_urls", function(result){
